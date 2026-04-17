@@ -111,16 +111,6 @@ function applyArtistColor(panel: HTMLElement, color: string): void {
 }
 
 /**
- * 포커스된 아티스트의 색상을 구합니다
- */
-function getLyricColor(focused: string[]): string {
-  if (focused.length === 1) {
-    return state.artists.find((a) => a.name === focused[0])?.color ?? "";
-  }
-  return "";
-}
-
-/**
  * RGB 색상을 RGBA로 변환합니다 (불투명도 조절)
  */
 function hexToRgba(hex: string, alpha: number): string {
@@ -128,6 +118,46 @@ function hexToRgba(hex: string, alpha: number): string {
   const g = parseInt(hex.slice(3, 5), 16);
   const b = parseInt(hex.slice(5, 7), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+/**
+ * 포커스된 아티스트들의 색상 배열을 반환합니다
+ */
+function getFocusedColors(focused: string[]): string[] {
+  return focused
+    .map((name) => state.artists.find((a) => a.name === name)?.color ?? "")
+    .filter(Boolean);
+}
+
+/**
+ * 요소에 단색 또는 그라데이션 텍스트 색상을 적용합니다
+ */
+function applyTextColor(el: HTMLElement, colors: string[], alpha = 1): void {
+  const reset = () => {
+    el.style.color = "";
+    el.style.background = "";
+    el.style.backgroundClip = "";
+    (el.style as CSSStyleDeclaration & Record<string, string>)["-webkit-background-clip"] = "";
+    (el.style as CSSStyleDeclaration & Record<string, string>)["-webkit-text-fill-color"] = "";
+  };
+
+  if (colors.length === 0) {
+    reset();
+    return;
+  }
+
+  const stops = colors.map((c) => (alpha < 1 ? hexToRgba(c, alpha) : c));
+
+  if (stops.length === 1) {
+    reset();
+    el.style.color = stops[0];
+  } else {
+    el.style.color = "transparent";
+    el.style.background = `linear-gradient(to right, ${stops.join(", ")})`;
+    el.style.backgroundClip = "text";
+    (el.style as CSSStyleDeclaration & Record<string, string>)["-webkit-background-clip"] = "text";
+    (el.style as CSSStyleDeclaration & Record<string, string>)["-webkit-text-fill-color"] = "transparent";
+  }
 }
 
 /**
@@ -190,16 +220,10 @@ export function renderCurrentLyric(): void {
   }
 
   // 가사 색상 설정
-  const lyricColor = getLyricColor(focused);
-  if (lyricColor) {
-    lyrics.jp.style.color = hexToRgba(lyricColor, 0.6);
-    lyrics.ko.style.color = lyricColor;
-    lyrics.roma.style.color = hexToRgba(lyricColor, 0.6);
-  } else {
-    lyrics.jp.style.color = "";
-    lyrics.ko.style.color = "";
-    lyrics.roma.style.color = "";
-  }
+  const colors = getFocusedColors(focused);
+  applyTextColor(lyrics.ko, colors);
+  applyTextColor(lyrics.jp, colors, 0.6);
+  applyTextColor(lyrics.roma, colors, 0.6);
 
   // 페이드 효과
   panels.lyrics.classList.remove("fade");

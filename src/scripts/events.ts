@@ -66,9 +66,9 @@ export function setupEventListeners(): void {
       navigate(-1);
     } else if (e.key === KEYBOARD_SHORTCUTS.NEXT) {
       navigate(1);
-    } else if (KEYBOARD_SHORTCUTS.EDIT.includes(e.key)) {
+    } else if ((KEYBOARD_SHORTCUTS.EDIT as readonly string[]).includes(e.key)) {
       dialogs.lyrics.showModal();
-    } else if (KEYBOARD_SHORTCUTS.BACKGROUND.includes(e.key)) {
+    } else if ((KEYBOARD_SHORTCUTS.BACKGROUND as readonly string[]).includes(e.key)) {
       inputs.backgroundFile.click();
     }
   });

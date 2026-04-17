@@ -3,54 +3,44 @@
  * 모든 DOM 선택자를 한 곳에서 관리합니다
  */
 
-function getElement<T extends HTMLElement>(id: string, type?: new () => T): T {
+function getElement<T extends HTMLElement>(id: string): T {
   const element = document.getElementById(id);
   if (!element) throw new Error(`Element with id "${id}" not found`);
   return element as T;
 }
 
-function queryElement<T extends HTMLElement>(
-  selector: string,
-  type?: new () => T,
-): T {
-  const element = document.querySelector(selector);
-  if (!element)
-    throw new Error(`Element with selector "${selector}" not found`);
-  return element as T;
-}
-
 // 다이얼로그 및 입력 필드
 export const dialogs = {
-  lyrics: getElement("lyricsDialog", HTMLDialogElement),
+  lyrics: getElement<HTMLDialogElement>("lyricsDialog"),
 };
 
 export const inputs = {
-  lyricsTextarea: getElement("lyricsTextarea", HTMLTextAreaElement),
-  backgroundFile: getElement("bgInput", HTMLInputElement),
+  lyricsTextarea: getElement<HTMLTextAreaElement>("lyricsTextarea"),
+  backgroundFile: getElement<HTMLInputElement>("bgInput"),
 };
 
 export const buttons = {
-  applyLyrics: getElement("applyLyricsBtn", HTMLButtonElement),
+  applyLyrics: getElement<HTMLButtonElement>("applyLyricsBtn"),
 };
 
 export const images = {
-  background: getElement("bgImg", HTMLImageElement),
+  background: getElement<HTMLImageElement>("bgImg"),
 };
 
 export const overlays = {
-  background: getElement("bgOverlay", HTMLElement),
+  background: getElement<HTMLElement>("bgOverlay"),
 };
 
 export const panels = {
-  artists: getElement("artistsPanel", HTMLElement),
-  lyrics: getElement("lyricsArea", HTMLElement),
+  artists: getElement<HTMLElement>("artistsPanel"),
+  lyrics: getElement<HTMLElement>("lyricsArea"),
 };
 
 export const lyrics = {
-  part: getElement("partLabel", HTMLElement),
-  jp: getElement("lyricJp", HTMLElement),
-  roma: getElement("lyricRoma", HTMLElement),
-  ko: getElement("lyricKo", HTMLElement),
+  part: getElement<HTMLElement>("partLabel"),
+  jp: getElement<HTMLElement>("lyricJp"),
+  roma: getElement<HTMLElement>("lyricRoma"),
+  ko: getElement<HTMLElement>("lyricKo"),
 };
 
 /**
