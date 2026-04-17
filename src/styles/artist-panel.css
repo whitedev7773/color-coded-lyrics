@@ -8,6 +8,8 @@
     opacity var(--transition),
     filter var(--transition);
   position: relative;
+  border-radius: 12px;
+  overflow: hidden;
 }
 
 .artist-panel.dimmed {
@@ -29,6 +31,7 @@
   pointer-events: none;
   z-index: 2;
   transition: border-color var(--transition);
+  border-radius: 12px;
 }
 
 /* ── Artist Image Wrapper ── */

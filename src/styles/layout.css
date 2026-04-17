@@ -18,7 +18,8 @@ dialog {
 #artistsPanel {
   display: flex;
   height: 100%;
-  gap: 0;
+  gap: 12px;
+  padding: 12px;
 }
 
 /* ── Divider ── */
