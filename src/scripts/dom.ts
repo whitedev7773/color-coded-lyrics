@@ -31,6 +31,10 @@ export const overlays = {
   background: getElement<HTMLElement>("bgOverlay"),
 };
 
+export const sections = {
+  artist: getElement<HTMLElement>("artistSection"),
+};
+
 export const panels = {
   artists: getElement<HTMLElement>("artistsPanel"),
   lyrics: getElement<HTMLElement>("lyricsArea"),

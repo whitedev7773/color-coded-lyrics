@@ -9,27 +9,41 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 6px solid transparent;
+  border: 8px solid transparent;
   position: relative;
-  border-radius: var(--radius-xl);
-  overflow: hidden;
+  border-radius: 0;
+  overflow: visible;
   padding-bottom: 8px;
+  z-index: 0;
   transition:
     opacity var(--transition),
     filter var(--transition),
-    border-color var(--transition);
+    border-color var(--transition),
+    box-shadow var(--transition),
+    z-index 0s;
+}
+
+/* 인접 패널 테두리 겹치기 */
+.artist-panel + .artist-panel {
+  margin-left: -8px;
 }
 
 .artist-panel.dimmed {
   opacity: 0.5;
   filter: grayscale(1);
-  border-color: rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.1);
+  box-shadow: none;
+  z-index: 0;
 }
 
 .artist-panel.focused {
   opacity: 1;
   filter: none;
   border-color: var(--artist-color, #333);
+  z-index: 1;
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--artist-color, #333) 25%, transparent),
+    0 8px 32px color-mix(in srgb, var(--artist-color, #333) 45%, transparent);
 }
 
 /* ── Artist Image Wrapper ── */
@@ -40,6 +54,7 @@
   background: #ddd;
   cursor: pointer;
   position: relative;
+  border-radius: 0;
 }
 
 .artist-img-wrap.no-image {

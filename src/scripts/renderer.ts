@@ -1,6 +1,6 @@
 import type { Artist } from "./state.ts";
 import { state } from "./state.ts";
-import { panels, lyrics, getArtistColorElements } from "./dom.ts";
+import { panels, lyrics, sections, getArtistColorElements } from "./dom.ts";
 import { CSS_CLASSES, DATA_ATTRIBUTES } from "./constants.ts";
 import { toggleClasses } from "./utils.ts";
 
@@ -219,8 +219,15 @@ export function renderCurrentLyric(): void {
     if (isFocused) panel.style.setProperty("--artist-color", artist.color);
   }
 
+  // artistSection box-shadow를 포커스 색상으로 반영
+  const focusedColors = getFocusedColors(focused);
+  const shadowColor = focusedColors.length > 0
+    ? `color-mix(in srgb, ${focusedColors[0]} 35%, transparent)`
+    : "rgba(0,0,0,0.1)";
+  sections.artist.style.boxShadow = `4px 4px 16px ${shadowColor}`;
+
   // 가사 색상 설정
-  const colors = getFocusedColors(focused);
+  const colors = focusedColors;
   applyTextColor(lyrics.ko, colors);
   applyTextColor(lyrics.jp, colors, 0.6);
   applyTextColor(lyrics.roma, colors, 0.6);

@@ -24,19 +24,14 @@
 }
 
 @keyframes partReveal {
-  0% {
-    opacity: 1;
-  }
-  75% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-  }
+  0%   { opacity: 0; transform: translateY(-6px) scaleX(0.92); letter-spacing: 0.22em; }
+  12%  { opacity: 1; transform: translateY(0)    scaleX(1);    letter-spacing: var(--letter-spacing-wider); }
+  75%  { opacity: 1; transform: translateY(0)    scaleX(1);    letter-spacing: var(--letter-spacing-wider); }
+  100% { opacity: 0; transform: translateY(4px); }
 }
 
 #partLabel.show {
-  animation: partReveal 4s ease forwards;
+  animation: partReveal 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 /* ── Lyrics Container ── */
