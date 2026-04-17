@@ -1,0 +1,8 @@
+/* ── CSS Variables & Theme ── */
+:root {
+  --bg: #ffffff;
+  --text-primary: #111111;
+  --text-muted: rgba(0, 0, 0, 0.35);
+  --divider: rgba(0, 0, 0, 0.1);
+  --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}

@@ -1,4 +1,5 @@
-import type { LyricEntry } from './parser.ts';
+import type { LyricEntry } from "./parser.ts";
+import { COLORS } from "./constants.ts";
 
 export interface Artist {
   name: string;
@@ -12,8 +13,6 @@ export interface AppState {
   artists: Artist[];
   currentIndex: number;
 }
-
-const COLORS = ['#5B8DEF', '#F06292', '#FF8A65', '#66BB6A', '#AB47BC', '#FFA726'];
 
 export function createArtists(names: string[]): Artist[] {
   return names.map((name, i) => ({

@@ -1,0 +1,30 @@
+/* ── Layout Structure ── */
+#artistSection,
+#divider,
+#lyricsSection,
+dialog {
+  position: relative;
+  z-index: 2;
+}
+
+/* ── Artist Section ── */
+#artistSection {
+  flex: 0 0 52%;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
+}
+
+#artistsPanel {
+  display: flex;
+  height: 100%;
+  gap: 0;
+}
+
+/* ── Divider ── */
+#divider {
+  width: 100%;
+  height: 3px;
+  background: var(--divider);
+  flex-shrink: 0;
+}
