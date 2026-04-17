@@ -1,8 +1,83 @@
 /* ── CSS Variables & Theme ── */
 :root {
+  /* Colors */
   --bg: #ffffff;
   --text-primary: #111111;
   --text-muted: rgba(0, 0, 0, 0.35);
   --divider: rgba(0, 0, 0, 0.1);
+  --border-light: rgba(0, 0, 0, 0.1);
+  --border-muted: rgba(0, 0, 0, 0.15);
+  --bg-secondary: #f5f5f5;
+  --bg-hover: rgba(0, 0, 0, 0.05);
+  --bg-code: rgba(0, 0, 0, 0.07);
+  --btn-primary: #5b8def;
+  --btn-primary-hover: #4a7de0;
+  --btn-secondary-text: rgba(0, 0, 0, 0.5);
+  --backdrop-dark: rgba(0, 0, 0, 0.25);
+  --shadow-light: rgba(0, 0, 0, 0.12);
+  --hint-text: rgba(0, 0, 0, 0.4);
+  --backdrop-blur: 4px;
+  --textarea-border-focus: rgba(0, 0, 0, 0.3);
+
+  /* Typography */
+  --font-family: "A2Z", sans-serif;
+  --font-size-sm: 12px;
+  --font-size-xs: 13px;
+  --font-size-base: 14px;
+  --font-size-md: 18px;
+  --font-size-lg: 20px;
+  --font-size-jp: 32px;
+  --font-size-ko: 44px;
+  --font-size-roma: 32px;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Spacing */
+  --gap-xs: 4px;
+  --gap-sm: 6px;
+  --gap-md: 10px;
+  --gap-lg: 12px;
+  --gap-xl: 16px;
+  --gap-2xl: 20px;
+
+  --padding-xs: 1px 5px;
+  --padding-sm: 10px 18px;
+  --padding-md: 10px 24px;
+  --padding-lg: 14px;
+  --padding-xl: 32px;
+
+  --margin-sm: 14px;
+  --margin-md: 16px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 20px;
+
+  /* Transitions */
   --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-fast: 0.2s;
+
+  /* Z-Index */
+  --z-bg: 0;
+  --z-overlay: 1;
+  --z-layer: 2;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0.02em;
+  --letter-spacing-wide: 0.04em;
+  --letter-spacing-wider: 0.14em;
+
+  /* Line Height */
+  --line-height-tight: 1.2;
+  --line-height-relaxed: 1.6;
+
+  /* Box Shadow */
+  --shadow-dialog: 0 12px 48px rgba(0, 0, 0, 0.12);
 }

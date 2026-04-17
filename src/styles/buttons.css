@@ -1,35 +1,35 @@
 /* ── Primary Button ── */
 .btn-primary {
-  background: #5b8def;
+  background: var(--btn-primary);
   border: none;
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   color: #fff;
-  font-family: "A2Z", sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  padding: 10px 24px;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  padding: var(--padding-md);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--transition-fast);
 }
 
 .btn-primary:hover {
-  background: #4a7de0;
+  background: var(--btn-primary-hover);
 }
 
 /* ── Secondary Button ── */
 .btn-secondary {
   background: transparent;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  border-radius: 10px;
-  color: rgba(0, 0, 0, 0.5);
-  font-family: "A2Z", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 10px 18px;
+  border: 1px solid var(--border-muted);
+  border-radius: var(--radius-md);
+  color: var(--btn-secondary-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  padding: var(--padding-sm);
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background var(--transition-fast);
 }
 
 .btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.05);
+  background: var(--bg-hover);
 }

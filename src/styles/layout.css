@@ -4,7 +4,7 @@
 #lyricsSection,
 dialog {
   position: relative;
-  z-index: 2;
+  z-index: var(--z-layer);
 }
 
 /* ── Artist Section ── */
@@ -18,8 +18,8 @@ dialog {
 #artistsPanel {
   display: flex;
   height: 100%;
-  gap: 12px;
-  padding: 12px;
+  gap: var(--gap-lg);
+  padding: var(--gap-lg);
 }
 
 /* ── Divider ── */
