@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Lyrics</title>
+    <link rel="stylesheet" href="./src/assets/fonts/a2z/a2z.css" />
+    <link rel="stylesheet" href="./src/styles/index.css" />
+    <script src="./src/scripts/index.ts" type="module" defer></script>
+  </head>
+  <body>
+    <!-- 가사 입력 다이얼로그 -->
+    <dialog id="lyricsDialog">
+      <h2>가사 입력</h2>
+      <p class="hint">
+        lyrics.txt 내용을 붙여넣으세요.<br />
+        <code>[파트명] #아티스트 가사</code> 형식을 지원합니다.
+      </p>
+      <textarea id="lyricsTextarea" placeholder="[1절 - 1] #Eve 風の伝が運んでくれる&#10;카제노 츠타에가 하콘데쿠레루&#10;바람의 전언이 실어다 주네"></textarea>
+      <div class="dialog-actions">
+        <button class="btn-secondary" onclick="document.getElementById('lyricsDialog').close()">닫기</button>
+        <button class="btn-primary" id="applyLyricsBtn">적용</button>
+      </div>
+    </dialog>
+
+    <!-- 아티스트 영역 -->
+    <section id="artistSection">
+      <div id="artistsPanel"></div>
+    </section>
+
+    <!-- 구분선 -->
+    <div id="divider"></div>
+
+    <!-- 가사 영역 -->
+    <section id="lyricsSection">
+      <div id="partLabel"></div>
+      <div id="lyricsArea">
+        <div id="lyricJp">&nbsp;</div>
+        <div id="lyricRoma">&nbsp;</div>
+        <div id="lyricKo">&nbsp;</div>
+      </div>
+    </section>
+  </body>
+</html>
