@@ -2,6 +2,7 @@ import { state } from './state.ts';
 
 const artistsPanel = document.getElementById('artistsPanel')!;
 const partLabel = document.getElementById('partLabel')!;
+const lyricsArea = document.getElementById('lyricsArea')!;
 const lyricJp = document.getElementById('lyricJp')!;
 const lyricRoma = document.getElementById('lyricRoma')!;
 const lyricKo = document.getElementById('lyricKo')!;
@@ -44,20 +45,9 @@ export function renderArtistPanels(): void {
     panel.appendChild(imgWrap);
     panel.appendChild(fileInput);
 
-    // 이름 + 색상 선택 버튼
+    // 이름 클릭 → 색상 선택
     const nameRow = document.createElement('div');
     nameRow.className = 'artist-name-row';
-
-    const nameEl = document.createElement('span');
-    nameEl.className = 'artist-name';
-    nameEl.textContent = artist.name;
-    nameEl.style.color = artist.color;
-
-    const colorBtn = document.createElement('button');
-    colorBtn.className = 'artist-color-btn';
-    colorBtn.title = '색상 변경';
-    colorBtn.style.setProperty('--artist-color', artist.color);
-    colorBtn.style.background = artist.color;
 
     const colorInput = document.createElement('input');
     colorInput.type = 'color';
@@ -69,9 +59,15 @@ export function renderArtistPanels(): void {
       renderCurrentLyric();
     });
 
-    colorBtn.appendChild(colorInput);
+    const nameEl = document.createElement('span');
+    nameEl.className = 'artist-name';
+    nameEl.textContent = artist.name;
+    nameEl.style.color = artist.color;
+    nameEl.title = '색상 변경';
+    nameEl.appendChild(colorInput);
+    nameEl.addEventListener('click', () => colorInput.click());
+
     nameRow.appendChild(nameEl);
-    nameRow.appendChild(colorBtn);
     panel.appendChild(nameRow);
 
     artistsPanel.appendChild(panel);
@@ -81,16 +77,11 @@ export function renderArtistPanels(): void {
 function applyArtistColor(panel: HTMLElement, color: string): void {
   const imgWrap = panel.querySelector<HTMLElement>('.artist-img-wrap');
   const nameEl = panel.querySelector<HTMLElement>('.artist-name');
-  const colorBtn = panel.querySelector<HTMLElement>('.artist-color-btn');
   if (imgWrap) {
     imgWrap.style.setProperty('--artist-color', color);
     imgWrap.style.borderColor = color;
   }
   if (nameEl) nameEl.style.color = color;
-  if (colorBtn) {
-    colorBtn.style.setProperty('--artist-color', color);
-    colorBtn.style.background = color;
-  }
 }
 
 export function renderCurrentLyric(): void {
@@ -112,6 +103,10 @@ export function renderCurrentLyric(): void {
   lyricJp.style.color = lyricColor;
   lyricKo.style.color = lyricColor;
   lyricRoma.style.color = '';
+
+  lyricsArea.classList.remove('fade');
+  void lyricsArea.offsetWidth;
+  lyricsArea.classList.add('fade');
 
   lyricJp.textContent = entry.lines[0];
   lyricRoma.textContent = entry.lines[1];

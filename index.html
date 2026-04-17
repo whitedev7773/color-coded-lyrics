@@ -9,6 +9,11 @@
     <script src="./src/scripts/index.ts" type="module" defer></script>
   </head>
   <body>
+    <!-- 배경 이미지 레이어 -->
+    <img id="bgImg" alt="" />
+    <div id="bgOverlay"></div>
+    <input type="file" id="bgInput" accept="image/*" style="display:none" />
+
     <!-- 가사 입력 다이얼로그 -->
     <dialog id="lyricsDialog">
       <h2>가사 입력</h2>
