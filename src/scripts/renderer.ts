@@ -225,22 +225,27 @@ export function renderCurrentLyric(): void {
   applyTextColor(lyrics.jp, colors, 0.6);
   applyTextColor(lyrics.roma, colors, 0.6);
 
-  // 페이드 효과
-  panels.lyrics.classList.remove("fade");
-  void panels.lyrics.offsetWidth; // 리플로우 강제
-  panels.lyrics.classList.add("fade");
-
-  // 가사 업데이트
-  lyrics.jp.textContent = entry.lines[0];
-  lyrics.roma.textContent = entry.lines[1];
-  lyrics.ko.textContent = entry.lines[2];
-
   // 파트 레이블 업데이트
   const newPart = state.rawEntries[state.currentIndex]?.part ?? null;
   if (newPart) {
     lyrics.part.textContent = newPart;
     lyrics.part.classList.remove("show");
-    void lyrics.part.offsetWidth; // 리플로우 강제
+    void lyrics.part.offsetWidth;
     lyrics.part.classList.add("show");
   }
+
+  // 페이드 아웃 → 내용 교체 → 페이드 인
+  const el = panels.lyrics;
+  el.classList.remove("fade-in", "fade-out");
+  void el.offsetWidth;
+  el.classList.add("fade-out");
+
+  setTimeout(() => {
+    lyrics.jp.textContent = entry.lines[0];
+    lyrics.roma.textContent = entry.lines[1];
+    lyrics.ko.textContent = entry.lines[2];
+    el.classList.remove("fade-out");
+    void el.offsetWidth;
+    el.classList.add("fade-in");
+  }, 150);
 }
