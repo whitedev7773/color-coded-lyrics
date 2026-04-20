@@ -16,7 +16,7 @@
 
 #bgImg.visible {
   opacity: 1;
-  filter: blur(20px) saturate(0);
+  filter: blur(20px) saturate(0.5);
   transform: scale(1.1);
 }
 
