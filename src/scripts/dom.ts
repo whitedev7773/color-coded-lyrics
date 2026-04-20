@@ -26,6 +26,11 @@ export const media = {
   music: getElement<HTMLAudioElement>("musicPlayer"),
 };
 
+export const visualizers = {
+  spectrumBar: getElement<HTMLElement>("spectrumBar"),
+  spectrumCanvas: getElement<HTMLCanvasElement>("spectrumCanvas"),
+};
+
 export const overlays = {
   background: getElement<HTMLElement>("bgOverlay"),
 };

@@ -58,13 +58,6 @@
   overflow: hidden;
 }
 
-#lyricsArea::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-}
-
 @keyframes lyricFadeIn {
   from {
     opacity: 0;
@@ -100,6 +93,7 @@
 #lyricKo {
   position: relative;
   z-index: 1;
+  overflow: visible;
 }
 
 #lyricJp {
@@ -109,7 +103,7 @@
   letter-spacing: var(--letter-spacing-tight);
   color: var(--text-primary);
   transition: color var(--transition);
-  text-shadow: 0 8px 30px rgba(255, 255, 255, 0.24);
+  /* text-shadow: 0 8px 30px rgba(255, 255, 255, 0.24); */
 }
 
 #lyricRoma {
@@ -126,7 +120,7 @@
   font-weight: var(--font-weight-bold);
   color: var(--text-primary);
   transition: color var(--transition);
-  text-shadow: 0 12px 34px rgba(255, 255, 255, 0.28);
+  /* text-shadow: 0 12px 34px rgba(255, 255, 255, 0.28); */
 }
 
 @media (max-width: 720px) {

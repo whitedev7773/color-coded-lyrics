@@ -1,11 +1,11 @@
 import { setupEventListeners } from "./events.ts";
 import { dialogs } from "./dom.ts";
+import { setupSpectrumVisualizer } from "./visualizer.ts";
 
-// 앱 초기화
 function initApp(): void {
   setupEventListeners();
+  setupSpectrumVisualizer();
   dialogs.lyrics.showModal();
 }
 
-// 앱 시작
 initApp();

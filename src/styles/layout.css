@@ -67,6 +67,8 @@ dialog {
   background: transparent;
   box-shadow: none;
   overflow: visible;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
 }
 
 @media (max-width: 720px) {

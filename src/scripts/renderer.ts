@@ -3,10 +3,8 @@ import { state } from "./state.ts";
 import { panels, lyrics, sections, getArtistColorElements } from "./dom.ts";
 import { CSS_CLASSES, DATA_ATTRIBUTES } from "./constants.ts";
 import { toggleClasses } from "./utils.ts";
+import { updateSpectrumTheme } from "./visualizer.ts";
 
-/**
- * 색상 입력 필드를 생성합니다
- */
 function createColorInput(
   artist: Artist,
   onColorChange: (color: string) => void,
@@ -22,9 +20,6 @@ function createColorInput(
   return input;
 }
 
-/**
- * 이미지 업로드 입력 필드를 생성합니다
- */
 function createImageFileInput(
   artist: Artist,
   img: HTMLImageElement,
@@ -47,9 +42,6 @@ function createImageFileInput(
   return input;
 }
 
-/**
- * 아티스트 이미지 패널을 생성합니다
- */
 function createImagePanel(
   artist: Artist,
   onImageChange: () => void,
@@ -74,9 +66,6 @@ function createImagePanel(
   return { wrapper: imgWrap, fileInput };
 }
 
-/**
- * 아티스트 이름 행을 생성합니다
- */
 function createNameRow(
   artist: Artist,
   onColorChange: (color: string) => void,
@@ -90,7 +79,7 @@ function createNameRow(
   nameEl.className = CSS_CLASSES.ARTIST_NAME;
   nameEl.textContent = artist.name;
   nameEl.style.color = artist.color;
-  nameEl.title = "색상 변경";
+  nameEl.title = "Change artist color";
   nameEl.appendChild(colorInput);
   nameEl.addEventListener("click", () => colorInput.click());
 
@@ -98,9 +87,6 @@ function createNameRow(
   return nameRow;
 }
 
-/**
- * 아티스트 색상을 적용합니다
- */
 function applyArtistColor(panel: HTMLElement, color: string): void {
   const elements = getArtistColorElements(panel);
   if (elements.imgWrap) {
@@ -110,9 +96,6 @@ function applyArtistColor(panel: HTMLElement, color: string): void {
   if (elements.nameEl) elements.nameEl.style.color = color;
 }
 
-/**
- * RGB 색상을 RGBA로 변환합니다 (불투명도 조절)
- */
 function hexToRgba(hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16);
   const g = parseInt(hex.slice(3, 5), 16);
@@ -120,18 +103,12 @@ function hexToRgba(hex: string, alpha: number): string {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-/**
- * 포커스된 아티스트들의 색상 배열을 반환합니다
- */
 function getFocusedColors(focused: string[]): string[] {
   return focused
     .map((name) => state.artists.find((a) => a.name === name)?.color ?? "")
     .filter(Boolean);
 }
 
-/**
- * 요소에 단색 또는 그라데이션 텍스트 색상을 적용합니다
- */
 function applyTextColor(el: HTMLElement, colors: string[], alpha = 1): void {
   const reset = () => {
     el.style.color = "";
@@ -146,7 +123,7 @@ function applyTextColor(el: HTMLElement, colors: string[], alpha = 1): void {
     return;
   }
 
-  const stops = colors.map((c) => (alpha < 1 ? hexToRgba(c, alpha) : c));
+  const stops = colors.map((color) => (alpha < 1 ? hexToRgba(color, alpha) : color));
 
   if (stops.length === 1) {
     reset();
@@ -160,9 +137,14 @@ function applyTextColor(el: HTMLElement, colors: string[], alpha = 1): void {
   }
 }
 
-/**
- * 아티스트 패널을 렌더링합니다
- */
+function isBlankLyricLine(line: string): boolean {
+  return line.replace(/\u00A0/g, " ").trim().length === 0;
+}
+
+function isBlankLyricEntry(lines: [string, string, string]): boolean {
+  return lines.every(isBlankLyricLine);
+}
+
 export function renderArtistPanels(): void {
   panels.artists.innerHTML = "";
 
@@ -180,7 +162,6 @@ export function renderArtistPanels(): void {
       renderCurrentLyric();
     };
 
-    // 이미지 패널
     const { wrapper: imgWrapper, fileInput } = createImagePanel(
       artist,
       onImageChange,
@@ -188,7 +169,6 @@ export function renderArtistPanels(): void {
     panel.appendChild(imgWrapper);
     panel.appendChild(fileInput);
 
-    // 이름 행
     const nameRow = createNameRow(artist, onColorChange);
     panel.appendChild(nameRow);
 
@@ -196,43 +176,40 @@ export function renderArtistPanels(): void {
   }
 }
 
-/**
- * 현재 가사를 렌더링합니다
- */
 export function renderCurrentLyric(): void {
   const entry = state.resolvedEntries[state.currentIndex];
   if (!entry) return;
 
   const focused = entry.artist ?? [];
+  const isBlankEntry = isBlankLyricEntry(entry.lines);
+  document.body.classList.toggle("is-blank-lyric", isBlankEntry);
 
-  // 아티스트 패널 업데이트
   for (const artist of state.artists) {
     const panel = panels.artists.querySelector<HTMLElement>(
       `[data-${DATA_ATTRIBUTES.ARTIST_NAME}="${artist.name}"]`,
     );
     if (!panel) continue;
+
     const isFocused = focused.includes(artist.name);
     toggleClasses(panel, {
       [CSS_CLASSES.FOCUSED]: isFocused,
       [CSS_CLASSES.DIMMED]: !isFocused,
     });
+
     if (isFocused) panel.style.setProperty("--artist-color", artist.color);
   }
 
-  // artistSection box-shadow를 포커스 색상으로 반영
   const focusedColors = getFocusedColors(focused);
   const shadowColor = focusedColors.length > 0
     ? `color-mix(in srgb, ${focusedColors[0]} 35%, transparent)`
     : "rgba(0,0,0,0.1)";
   sections.artist.style.boxShadow = `4px 4px 16px ${shadowColor}`;
 
-  // 가사 색상 설정
-  const colors = focusedColors;
-  applyTextColor(lyrics.ko, colors);
-  applyTextColor(lyrics.jp, colors, 0.6);
-  applyTextColor(lyrics.roma, colors, 0.6);
+  applyTextColor(lyrics.ko, focusedColors);
+  applyTextColor(lyrics.jp, focusedColors, 0.6);
+  applyTextColor(lyrics.roma, focusedColors, 0.6);
+  updateSpectrumTheme(focusedColors);
 
-  // 파트 레이블 업데이트
   const newPart = state.rawEntries[state.currentIndex]?.part ?? null;
   if (newPart) {
     lyrics.part.textContent = newPart;
@@ -241,18 +218,17 @@ export function renderCurrentLyric(): void {
     lyrics.part.classList.add("show");
   }
 
-  // 페이드 아웃 → 내용 교체 → 페이드 인
-  const el = panels.lyrics;
-  el.classList.remove("fade-in", "fade-out");
-  void el.offsetWidth;
-  el.classList.add("fade-out");
+  const lyricPanel = panels.lyrics;
+  lyricPanel.classList.remove("fade-in", "fade-out");
+  void lyricPanel.offsetWidth;
+  lyricPanel.classList.add("fade-out");
 
   setTimeout(() => {
     lyrics.jp.textContent = entry.lines[0];
     lyrics.roma.textContent = entry.lines[1];
     lyrics.ko.textContent = entry.lines[2];
-    el.classList.remove("fade-out");
-    void el.offsetWidth;
-    el.classList.add("fade-in");
+    lyricPanel.classList.remove("fade-out");
+    void lyricPanel.offsetWidth;
+    lyricPanel.classList.add("fade-in");
   }, 150);
 }
