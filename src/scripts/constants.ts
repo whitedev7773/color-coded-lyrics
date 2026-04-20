@@ -1,4 +1,3 @@
-// 색상 팔레트
 export const COLORS = [
   "#5B8DEF",
   "#F06292",
@@ -8,15 +7,15 @@ export const COLORS = [
   "#FFA726",
 ];
 
-// 키보드 단축키
 export const KEYBOARD_SHORTCUTS = {
   PREVIOUS: "ArrowLeft",
   NEXT: "ArrowRight",
   EDIT: ["e", "E"],
   BACKGROUND: ["b", "B"],
+  MUSIC: ["m", "M"],
+  PLAY_TOGGLE: [" ", "k", "K"],
 } as const;
 
-// CSS 클래스명
 export const CSS_CLASSES = {
   ARTIST_PANEL: "artist-panel",
   ARTIST_IMG_WRAP: "artist-img-wrap",
@@ -30,7 +29,6 @@ export const CSS_CLASSES = {
   DIMMED: "dimmed",
 } as const;
 
-// 데이터 속성명
 export const DATA_ATTRIBUTES = {
   ARTIST_NAME: "name",
 } as const;

@@ -18,8 +18,7 @@ dialog {
   box-shadow: var(--shadow-panel);
 }
 
-#artistSection::before,
-#lyricsSection::before {
+#artistSection::before {
   content: "";
   position: absolute;
   inset: 1px;
@@ -29,8 +28,7 @@ dialog {
   pointer-events: none;
 }
 
-#artistSection::after,
-#lyricsSection::after {
+#artistSection::after {
   content: "";
   position: absolute;
   inset: auto 18% -32% auto;
@@ -51,12 +49,8 @@ dialog {
 }
 
 #divider {
-  width: calc(100% - 88px);
-  height: 1px;
-  margin: 14px auto;
-  background: linear-gradient(90deg, transparent, var(--divider), transparent);
+  display: none;
   flex-shrink: 0;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.28);
 }
 
 #lyricsSection {
@@ -68,11 +62,11 @@ dialog {
   min-height: 0;
   width: calc(100% - 36px);
   margin: 0 18px 18px;
-  border: 1px solid var(--surface-outline);
-  border-radius: calc(var(--radius-xl) + 8px);
-  background: var(--surface-glass-strong);
-  box-shadow: var(--shadow-panel-strong);
-  overflow: hidden;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  overflow: visible;
 }
 
 @media (max-width: 720px) {
@@ -93,8 +87,7 @@ dialog {
   }
 
   #divider {
-    width: calc(100% - 40px);
-    margin: 10px auto;
+    display: none;
   }
 
   #artistsPanel {

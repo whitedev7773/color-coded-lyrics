@@ -12,6 +12,7 @@ export interface AppState {
   resolvedEntries: LyricEntry[];
   artists: Artist[];
   currentIndex: number;
+  musicUrl: string | null;
 }
 
 export function createArtists(names: string[]): Artist[] {
@@ -27,4 +28,5 @@ export const state: AppState = {
   resolvedEntries: [],
   artists: [],
   currentIndex: 0,
+  musicUrl: null,
 };
