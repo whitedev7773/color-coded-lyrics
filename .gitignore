@@ -2,3 +2,13 @@ node_modules/
 dist/
 .DS_Store
 *.local
+.gradle/
+.idea/
+android/.gradle/
+android/local.properties
+android/keystore.properties
+android/keystore/
+android/**/build/
+android/**/captures/
+android/**/*.apk
+android/**/*.aab
