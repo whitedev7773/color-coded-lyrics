@@ -2,7 +2,6 @@ import { dialogs, inputs, buttons } from "./dom.ts";
 import { KEYBOARD_SHORTCUTS } from "./constants.ts";
 import { applyLyrics, navigate } from "./app/lyrics-actions.ts";
 import { setBackgroundImage, setMusicSource, togglePlayback } from "./app/media.ts";
-import { saveLyricsDraft } from "./app/persistence.ts";
 import { closeContextMenu, setupContextMenu } from "./ui/context-menu.ts";
 
 function isTypingTarget(target: EventTarget | null): boolean {
@@ -19,11 +18,6 @@ export function setupEventListeners(): void {
     const text = inputs.lyricsTextarea.value.trim();
     if (text) applyLyrics(text);
   });
-
-  inputs.lyricsTextarea.addEventListener("input", () => {
-    saveLyricsDraft(inputs.lyricsTextarea.value);
-  });
-
   inputs.backgroundFile.addEventListener("change", () => {
     const file = inputs.backgroundFile.files?.[0];
     if (!file) return;

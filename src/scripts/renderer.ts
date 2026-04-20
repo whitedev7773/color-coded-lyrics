@@ -6,7 +6,6 @@ import { toggleClasses } from "./utils.ts";
 import { updateSpectrumTheme } from "./visualizer.ts";
 import { setArtistImage } from "./app/media.ts";
 import { getAnimationSettings } from "./app/settings.ts";
-import { saveSessionFromState } from "./app/persistence.ts";
 
 function createColorInput(
   artist: Artist,
@@ -156,7 +155,6 @@ export function renderArtistPanels(): void {
     const onColorChange = (color: string) => {
       applyArtistColor(panel, color);
       renderCurrentLyric();
-      saveSessionFromState();
     };
 
     const onImageChange = () => {

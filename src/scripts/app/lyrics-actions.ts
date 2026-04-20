@@ -3,10 +3,8 @@ import { parseLyrics, extractArtists, resolveArtists } from "../parser.ts";
 import { renderArtistPanels, renderCurrentLyric } from "../renderer.ts";
 import { state, createArtists } from "../state.ts";
 import { createBlankEntry, isValidIndex } from "../utils.ts";
-import { saveLyricsDraft, saveSessionFromState } from "./persistence.ts";
 
 interface ApplyLyricsOptions {
-  artistColors?: Record<string, string>;
   closeDialog?: boolean;
   initialIndex?: number;
 }
@@ -18,12 +16,11 @@ export function applyLyrics(text: string, options: ApplyLyricsOptions = {}): voi
 
   const existingByName = new Map(state.artists.map((artist) => [artist.name, artist]));
   const nextArtists = createArtists(artistNames).map((artist) => {
-    const persistedColor = options.artistColors?.[artist.name];
     const existingArtist = existingByName.get(artist.name);
 
     return {
       ...(existingArtist ?? artist),
-      color: persistedColor ?? existingArtist?.color ?? artist.color,
+      color: existingArtist?.color ?? artist.color,
     };
   });
 
@@ -36,8 +33,6 @@ export function applyLyrics(text: string, options: ApplyLyricsOptions = {}): voi
 
   renderArtistPanels();
   renderCurrentLyric();
-  saveLyricsDraft(text);
-  saveSessionFromState();
 
   if (options.closeDialog ?? true) {
     if (dialogs.lyrics.open) {
@@ -54,5 +49,4 @@ export function navigate(delta: number): void {
 
   state.currentIndex = nextIndex;
   renderCurrentLyric();
-  saveSessionFromState();
 }
