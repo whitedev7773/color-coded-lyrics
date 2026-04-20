@@ -4,6 +4,7 @@ import { panels, lyrics, sections, getArtistColorElements } from "./dom.ts";
 import { CSS_CLASSES, DATA_ATTRIBUTES } from "./constants.ts";
 import { toggleClasses } from "./utils.ts";
 import { updateSpectrumTheme } from "./visualizer.ts";
+import { setArtistImage } from "./app/media.ts";
 
 function createColorInput(
   artist: Artist,
@@ -33,10 +34,7 @@ function createImageFileInput(
   input.addEventListener("change", () => {
     const file = input.files?.[0];
     if (!file) return;
-    const url = URL.createObjectURL(file);
-    artist.imageUrl = url;
-    img.src = url;
-    imgWrap.classList.remove(CSS_CLASSES.NO_IMAGE);
+    setArtistImage(artist, file, img, imgWrap);
     onImageChange();
   });
   return input;
@@ -127,7 +125,7 @@ function applyTextColor(el: HTMLElement, colors: string[], alpha = 1): void {
 
   if (stops.length === 1) {
     reset();
-    el.style.color = stops[0];
+    el.style.color = stops[0] ?? "";
   } else {
     el.style.color = "transparent";
     el.style.background = `linear-gradient(to right, ${stops.join(", ")})`;

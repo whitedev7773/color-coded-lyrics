@@ -17,7 +17,7 @@ type RgbaColor = {
 let audioContext: AudioContext | null = null;
 let analyser: AnalyserNode | null = null;
 let sourceNode: MediaElementAudioSourceNode | null = null;
-let frequencyData: Uint8Array | null = null;
+let frequencyData: Uint8Array<ArrayBuffer> | null = null;
 let animationFrameId = 0;
 let lastFrameAt = 0;
 let hasStarted = false;
@@ -30,6 +30,10 @@ const theme = {
   targetColors: [...defaultThemeColors],
   transitionStartAt: 0,
 };
+
+function getLastColor(colors: readonly string[]): string {
+  return colors[colors.length - 1] ?? defaultThemeColors[0] ?? "rgba(255, 255, 255, 0.78)";
+}
 
 function hexToRgba(hex: string, alpha: number): string {
   const r = parseInt(hex.slice(1, 3), 16);
@@ -84,10 +88,10 @@ function getAnimatedThemeColors(timestamp: number): string[] {
   const stopCount = Math.max(fromColors.length, targetColors.length);
 
   const expandedFrom = Array.from({ length: stopCount }, (_, index) => {
-    return fromColors[Math.min(index, fromColors.length - 1)];
+    return fromColors[Math.min(index, fromColors.length - 1)] ?? getLastColor(fromColors);
   });
   const expandedTarget = Array.from({ length: stopCount }, (_, index) => {
-    return targetColors[Math.min(index, targetColors.length - 1)];
+    return targetColors[Math.min(index, targetColors.length - 1)] ?? getLastColor(targetColors);
   });
 
   if (theme.transitionStartAt === 0) {
@@ -99,9 +103,12 @@ function getAnimatedThemeColors(timestamp: number): string[] {
     1,
     (timestamp - theme.transitionStartAt) / THEME_FADE_DURATION_MS,
   );
-  theme.colors = expandedFrom.map((color, index) =>
-    mixColor(color, expandedTarget[index], progress),
-  );
+  theme.colors = expandedFrom.map((color, index) => {
+    const targetColor =
+      expandedTarget[index] ??
+      getLastColor(expandedTarget);
+    return mixColor(color, targetColor, progress);
+  });
 
   if (progress >= 1) {
     theme.fromColors = [...expandedTarget];
@@ -143,7 +150,7 @@ function ensureAudioGraph(): void {
   analyser = audioContext.createAnalyser();
   analyser.fftSize = 256;
   analyser.smoothingTimeConstant = 0.84;
-  frequencyData = new Uint8Array(analyser.frequencyBinCount);
+  frequencyData = new Uint8Array(new ArrayBuffer(analyser.frequencyBinCount));
   sourceNode = audioContext.createMediaElementSource(media.music);
   sourceNode.connect(analyser);
   analyser.connect(audioContext.destination);
@@ -230,7 +237,7 @@ function drawSpectrum(timestamp: number): void {
 
   for (let i = 0; i < BAR_COUNT; i += 1) {
     const sampleIndex = start + Math.floor((i / BAR_COUNT) * frequencySpan);
-    const raw = frequencyData[sampleIndex] / 255;
+    const raw = (frequencyData[sampleIndex] ?? 0) / 255;
     const eased = Math.pow(raw, 1.45) * activity;
     const barHeight = MIN_BAR_HEIGHT + eased * maxBarHeight;
     const x = i * barWidth;
@@ -242,7 +249,8 @@ function drawSpectrum(timestamp: number): void {
     ctx.shadowColor =
       animatedColors[
         Math.min(i % animatedColors.length, animatedColors.length - 1)
-      ];
+      ] ??
+      getLastColor(animatedColors);
     ctx.globalAlpha = 0.88;
     ctx.beginPath();
     ctx.roundRect(

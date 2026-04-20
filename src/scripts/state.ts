@@ -18,7 +18,7 @@ export interface AppState {
 export function createArtists(names: string[]): Artist[] {
   return names.map((name, i) => ({
     name,
-    color: COLORS[i % COLORS.length],
+    color: COLORS[i % COLORS.length] ?? COLORS[0] ?? "#5B8DEF",
     imageUrl: null,
   }));
 }

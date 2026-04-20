@@ -11,13 +11,13 @@ function parseFirstLine(raw: string): { part: string | null; artist: string[] | 
 
   const partMatch = rest.match(/^\[([^\]]+)\]\s*/);
   if (partMatch) {
-    part = partMatch[1];
+    part = partMatch[1] ?? null;
     rest = rest.slice(partMatch[0].length);
   }
 
   const artistMatch = rest.match(/^#([^\s]*)\s*/);
   if (artistMatch) {
-    const tag = artistMatch[1].trim();
+    const tag = (artistMatch[1] ?? "").trim();
     if (tag === '.' || tag === '') {
       artist = [];
     } else {
@@ -40,7 +40,7 @@ export function parseLyrics(text: string): LyricEntry[] {
   for (const group of groups) {
     const rawLines = group.split('\n').map((l) => l.trim());
 
-    const { part, artist, text: firstText } = parseFirstLine(rawLines[0]);
+    const { part, artist, text: firstText } = parseFirstLine(rawLines[0] ?? "");
     const line0 = dotToNbsp(firstText || '\u00A0');
     const line1 = dotToNbsp(rawLines[1] ?? '');
     const line2 = dotToNbsp(rawLines[2] ?? '');
