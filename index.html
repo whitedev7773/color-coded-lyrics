@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./src/assets/fonts/a2z/a2z.css" />
     <link rel="stylesheet" href="./src/styles/index.css" />
     <link rel="stylesheet" href="./src/styles/spectrum.css" />
+    <link rel="stylesheet" href="./src/styles/context-menu.css" />
     <script src="./src/scripts/index.ts" type="module" defer></script>
   </head>
   <body>
@@ -52,5 +53,14 @@
     <div id="spectrumBar" aria-hidden="true">
       <canvas id="spectrumCanvas"></canvas>
     </div>
+
+    <nav id="contextMenu" class="context-menu" hidden aria-label="Context menu">
+      <button type="button" class="context-menu-item" data-action="edit-lyrics">가사 수정</button>
+      <button type="button" class="context-menu-item" data-action="change-background">배경 변경</button>
+      <button type="button" class="context-menu-item" data-action="change-music">음악 추가/교체</button>
+      <button type="button" class="context-menu-item" data-action="toggle-playback">재생 / 일시정지</button>
+      <button type="button" class="context-menu-item" data-action="previous-lyric">이전 가사</button>
+      <button type="button" class="context-menu-item" data-action="next-lyric">다음 가사</button>
+    </nav>
   </body>
 </html>

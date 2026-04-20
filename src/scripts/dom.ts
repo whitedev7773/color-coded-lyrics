@@ -35,6 +35,10 @@ export const overlays = {
   background: getElement<HTMLElement>("bgOverlay"),
 };
 
+export const menus = {
+  context: getElement<HTMLElement>("contextMenu"),
+};
+
 export const sections = {
   artist: getElement<HTMLElement>("artistSection"),
 };
