@@ -1,28 +1,37 @@
-/* ── CSS Variables & Theme ── */
 :root {
   /* Colors */
-  --bg: #ffffff;
-  --text-primary: #111111;
-  --text-muted: rgba(0, 0, 0, 0.35);
-  --divider: rgba(0, 0, 0, 0.1);
-  --border-light: rgba(0, 0, 0, 0.1);
-  --border-muted: rgba(0, 0, 0, 0.15);
-  --bg-secondary: #f5f5f5;
-  --bg-hover: rgba(0, 0, 0, 0.05);
-  --bg-code: rgba(0, 0, 0, 0.07);
-  --btn-primary: #5b8def;
-  --btn-primary-hover: #4a7de0;
-  --btn-secondary-text: rgba(0, 0, 0, 0.5);
-  --backdrop-dark: rgba(0, 0, 0, 0.25);
-  --shadow-light: rgba(0, 0, 0, 0.12);
-  --hint-text: rgba(0, 0, 0, 0.4);
-  --backdrop-blur: 4px;
-  --textarea-border-focus: rgba(0, 0, 0, 0.3);
+  --bg: #dfe7f3;
+  --text-primary: #10233d;
+  --text-secondary: rgba(16, 35, 61, 0.74);
+  --text-muted: rgba(16, 35, 61, 0.48);
+  --divider: rgba(255, 255, 255, 0.26);
+  --border-light: rgba(255, 255, 255, 0.38);
+  --border-muted: rgba(175, 205, 255, 0.35);
+  --bg-secondary: rgba(255, 255, 255, 0.16);
+  --bg-hover: rgba(255, 255, 255, 0.2);
+  --bg-code: rgba(255, 255, 255, 0.2);
+  --surface-glass: linear-gradient(180deg, rgba(255, 255, 255, 0.34), rgba(255, 255, 255, 0.12));
+  --surface-glass-strong: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.16));
+  --surface-elevated: rgba(255, 255, 255, 0.18);
+  --surface-reflection: linear-gradient(120deg, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.08) 42%, rgba(255, 255, 255, 0.24) 100%);
+  --surface-outline: rgba(255, 255, 255, 0.42);
+  --surface-shadow: rgba(55, 88, 134, 0.18);
+  --btn-primary: linear-gradient(135deg, rgba(142, 196, 255, 0.9), rgba(91, 138, 235, 0.78));
+  --btn-primary-hover: linear-gradient(135deg, rgba(164, 209, 255, 0.94), rgba(86, 129, 230, 0.84));
+  --btn-secondary-text: rgba(16, 35, 61, 0.8);
+  --backdrop-dark: rgba(10, 21, 39, 0.28);
+  --shadow-light: rgba(87, 116, 159, 0.18);
+  --hint-text: rgba(16, 35, 61, 0.56);
+  --backdrop-blur: 18px;
+  --textarea-border-focus: rgba(146, 187, 255, 0.68);
+  --ambient-blue: rgba(132, 186, 255, 0.38);
+  --ambient-cyan: rgba(121, 225, 255, 0.22);
+  --ambient-pink: rgba(255, 176, 214, 0.22);
 
   /* Typography */
   --font-family: "A2Z", sans-serif;
-  --font-size-sm: 12px;
   --font-size-xs: 13px;
+  --font-size-sm: 12px;
   --font-size-base: 14px;
   --font-size-md: 18px;
   --font-size-lg: 20px;
@@ -54,10 +63,11 @@
   --margin-md: 16px;
 
   /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 10px;
-  --radius-lg: 12px;
-  --radius-xl: 20px;
+  --radius-sm: 6px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
 
   /* Transitions */
   --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -79,5 +89,7 @@
   --line-height-relaxed: 1.6;
 
   /* Box Shadow */
-  --shadow-dialog: 0 12px 48px rgba(0, 0, 0, 0.12);
+  --shadow-dialog: 0 30px 80px rgba(44, 77, 124, 0.26);
+  --shadow-panel: 0 18px 48px rgba(58, 88, 132, 0.16);
+  --shadow-panel-strong: 0 30px 64px rgba(58, 88, 132, 0.22);
 }

@@ -1,7 +1,5 @@
-/* ── Artist Panel ── */
 #artistSection {
-  background: white;
-  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.1);
+  background: var(--surface-glass);
 }
 
 .artist-panel {
@@ -9,11 +7,10 @@
   display: flex;
   flex-direction: column;
   min-width: 0;
-  border: 8px solid transparent;
+  border: 1px solid transparent;
   position: relative;
-  border-radius: 0;
-  overflow: visible;
-  padding-bottom: 8px;
+  border-radius: calc(var(--radius-lg) + 4px);
+  overflow: hidden;
   z-index: 0;
   transition:
     opacity var(--transition),
@@ -23,42 +20,56 @@
     z-index 0s;
 }
 
-/* 인접 패널 테두리 겹치기 */
 .artist-panel + .artist-panel {
-  margin-left: -8px;
+  margin-left: 10px;
 }
 
 .artist-panel.dimmed {
-  opacity: 0.5;
-  filter: grayscale(1);
-  border-color: rgba(0, 0, 0, 0.1);
-  box-shadow: none;
+  opacity: 0.58;
+  filter: saturate(0.75);
+  border-color: rgba(255, 255, 255, 0.16);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2);
   z-index: 0;
 }
 
 .artist-panel.focused {
   opacity: 1;
   filter: none;
-  border-color: var(--artist-color, #333);
+  border-color: color-mix(in srgb, var(--artist-color, #7aa8ff) 44%, rgba(255, 255, 255, 0.26));
   z-index: 1;
   box-shadow:
-    0 0 0 2px color-mix(in srgb, var(--artist-color, #333) 25%, transparent),
-    0 8px 32px color-mix(in srgb, var(--artist-color, #333) 45%, transparent);
+    inset 0 1px 0 rgba(255, 255, 255, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--artist-color, #7aa8ff) 26%, transparent),
+    0 16px 40px color-mix(in srgb, var(--artist-color, #7aa8ff) 34%, transparent);
 }
 
-/* ── Artist Image Wrapper ── */
 .artist-img-wrap {
   flex: 1;
   min-height: 0;
   overflow: hidden;
-  background: #ddd;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.34), transparent 28%),
+    color-mix(in srgb, var(--artist-color, #d4dceb) 22%, rgba(255, 255, 255, 0.06));
   cursor: pointer;
   position: relative;
-  border-radius: 0;
+  border-radius: calc(var(--radius-lg) + 2px) calc(var(--radius-lg) + 2px) 0 0;
 }
 
 .artist-img-wrap.no-image {
-  background: color-mix(in srgb, var(--artist-color, #ccc) 18%, #e0e0e0);
+  background:
+    radial-gradient(circle at 30% 24%, rgba(255, 255, 255, 0.5), transparent 24%),
+    linear-gradient(160deg, color-mix(in srgb, var(--artist-color, #ccc) 24%, rgba(255, 255, 255, 0.22)), rgba(255, 255, 255, 0.08));
+}
+
+.artist-img-wrap::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.42), transparent 32%, rgba(255, 255, 255, 0.08) 100%),
+    linear-gradient(125deg, rgba(255, 255, 255, 0.34), transparent 36%);
+  mix-blend-mode: screen;
+  pointer-events: none;
 }
 
 .artist-img {
@@ -67,33 +78,42 @@
   object-fit: cover;
   object-position: center center;
   display: block;
+  transition:
+    transform 0.5s ease,
+    filter 0.5s ease;
+}
+
+.artist-panel.focused .artist-img {
+  transform: scale(1.03);
+  filter: saturate(1.05) contrast(1.03);
 }
 
 .artist-img-wrap.no-image .artist-img {
   display: none;
 }
 
-/* ── Artist Name Row ── */
 .artist-name-row {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: var(--gap-sm);
-  padding: 10px 8px 8px;
-  background: var(--bg);
+  padding: 14px 12px 16px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.2));
   flex-shrink: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .artist-name {
   font-size: 26px;
   font-weight: var(--font-weight-bold);
-  letter-spacing: var(--letter-spacing-wide);
+  letter-spacing: 0.08em;
   transition: color var(--transition);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
   position: relative;
+  text-shadow: 0 1px 10px rgba(255, 255, 255, 0.24);
 }
 
 .artist-color-input {
@@ -103,4 +123,14 @@
   width: 0;
   height: 0;
   pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .artist-panel + .artist-panel {
+    margin-left: 8px;
+  }
+
+  .artist-name {
+    font-size: 20px;
+  }
 }

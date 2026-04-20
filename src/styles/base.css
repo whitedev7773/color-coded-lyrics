@@ -1,4 +1,3 @@
-/* ── Base Styles & Reset ── */
 *,
 *::before,
 *::after {
@@ -24,4 +23,51 @@ body {
   height: 100%;
   user-select: none;
   position: relative;
+  isolation: isolate;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  pointer-events: none;
+  z-index: var(--z-bg);
+  filter: blur(12px);
+}
+
+body::before {
+  top: -18vh;
+  left: -10vw;
+  width: 42vw;
+  height: 42vw;
+  min-width: 320px;
+  min-height: 320px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.95), transparent 32%),
+    radial-gradient(circle at 55% 55%, var(--ambient-blue), transparent 68%);
+  opacity: 0.9;
+}
+
+body::after {
+  right: -12vw;
+  bottom: -16vh;
+  width: 38vw;
+  height: 38vw;
+  min-width: 280px;
+  min-height: 280px;
+  border-radius: 46% 54% 62% 38% / 44% 48% 52% 56%;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.82), transparent 28%),
+    radial-gradient(circle at 60% 52%, var(--ambient-pink), transparent 58%),
+    radial-gradient(circle at 42% 68%, var(--ambient-cyan), transparent 72%);
+  opacity: 0.78;
+}
+
+section,
+dialog,
+.btn-primary,
+.btn-secondary {
+  -webkit-backdrop-filter: blur(var(--backdrop-blur));
+  backdrop-filter: blur(var(--backdrop-blur));
 }

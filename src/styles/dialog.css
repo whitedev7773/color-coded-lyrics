@@ -1,6 +1,7 @@
-/* ── Dialog ── */
 dialog {
-  background: var(--bg);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.38), rgba(255, 255, 255, 0.16)),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.26), transparent 40%);
   border: 1px solid var(--border-light);
   border-radius: var(--radius-xl);
   color: var(--text-primary);
@@ -10,11 +11,30 @@ dialog {
   max-width: 95vw;
   box-shadow: var(--shadow-dialog);
   margin: auto;
+  overflow: hidden;
+}
+
+dialog::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: var(--surface-reflection);
+  opacity: 0.8;
+  pointer-events: none;
 }
 
 dialog::backdrop {
   background: var(--backdrop-dark);
   backdrop-filter: blur(var(--backdrop-blur));
+}
+
+dialog h2,
+dialog p,
+dialog textarea,
+.dialog-actions {
+  position: relative;
+  z-index: 1;
 }
 
 dialog h2 {
@@ -39,27 +59,33 @@ dialog p.hint code {
   font-family: monospace;
 }
 
-/* ── Dialog Textarea ── */
 dialog textarea {
   width: 100%;
   height: 260px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: var(--radius-lg);
   color: var(--text-primary);
   font-family: var(--font-family);
   font-size: var(--font-size-xs);
   padding: var(--padding-lg);
   resize: vertical;
   outline: none;
-  transition: border-color var(--transition-fast);
+  transition:
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast),
+    background var(--transition-fast);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
 dialog textarea:focus {
   border-color: var(--textarea-border-focus);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.28),
+    0 0 0 4px rgba(146, 187, 255, 0.16);
 }
 
-/* ── Dialog Actions ── */
 .dialog-actions {
   display: flex;
   gap: var(--gap-md);

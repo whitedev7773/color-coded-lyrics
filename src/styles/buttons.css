@@ -1,35 +1,46 @@
-/* ── Primary Button ── */
 .btn-primary {
   background: var(--btn-primary);
-  border: none;
-  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  border-radius: var(--radius-pill);
   color: #fff;
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-bold);
-  padding: var(--padding-md);
+  padding: 12px 24px;
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    0 12px 24px rgba(73, 112, 182, 0.22);
 }
 
 .btn-primary:hover {
   background: var(--btn-primary-hover);
+  transform: translateY(-1px);
 }
 
-/* ── Secondary Button ── */
 .btn-secondary {
-  background: transparent;
-  border: 1px solid var(--border-muted);
-  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-pill);
   color: var(--btn-secondary-text);
   font-family: var(--font-family);
   font-size: var(--font-size-base);
   font-weight: var(--font-weight-medium);
-  padding: var(--padding-sm);
+  padding: 12px 22px;
   cursor: pointer;
-  transition: background var(--transition-fast);
+  transition:
+    background var(--transition-fast),
+    transform var(--transition-fast),
+    border-color var(--transition-fast);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
 }
 
 .btn-secondary:hover {
   background: var(--bg-hover);
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.44);
 }

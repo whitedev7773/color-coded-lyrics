@@ -1,4 +1,3 @@
-/* ── Layout Structure ── */
 #artistSection,
 #divider,
 #lyricsSection,
@@ -7,25 +6,98 @@ dialog {
   z-index: var(--z-layer);
 }
 
-/* ── Artist Section ── */
 #artistSection {
   flex: 0 0 52%;
   min-height: 0;
-  width: 100%;
+  width: calc(100% - 36px);
+  margin: 18px 18px 0;
   overflow: hidden;
+  border: 1px solid var(--surface-outline);
+  border-radius: calc(var(--radius-xl) + 8px);
+  background: var(--surface-glass);
+  box-shadow: var(--shadow-panel);
+}
+
+#artistSection::before,
+#lyricsSection::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  background: var(--surface-reflection);
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+#artistSection::after,
+#lyricsSection::after {
+  content: "";
+  position: absolute;
+  inset: auto 18% -32% auto;
+  width: 32%;
+  height: 46%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3), transparent 70%);
+  pointer-events: none;
+  filter: blur(24px);
+  opacity: 0.8;
 }
 
 #artistsPanel {
   display: flex;
   height: 100%;
   gap: 0;
-  padding: 0;
+  padding: 14px;
 }
 
-/* ── Divider ── */
 #divider {
-  width: 100%;
-  height: 3px;
-  background: var(--divider);
+  width: calc(100% - 88px);
+  height: 1px;
+  margin: 14px auto;
+  background: linear-gradient(90deg, transparent, var(--divider), transparent);
   flex-shrink: 0;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.28);
+}
+
+#lyricsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+  width: calc(100% - 36px);
+  margin: 0 18px 18px;
+  border: 1px solid var(--surface-outline);
+  border-radius: calc(var(--radius-xl) + 8px);
+  background: var(--surface-glass-strong);
+  box-shadow: var(--shadow-panel-strong);
+  overflow: hidden;
+}
+
+@media (max-width: 720px) {
+  #artistSection,
+  #lyricsSection {
+    width: calc(100% - 20px);
+    margin-left: 10px;
+    margin-right: 10px;
+    border-radius: var(--radius-xl);
+  }
+
+  #artistSection {
+    margin-top: 10px;
+  }
+
+  #lyricsSection {
+    margin-bottom: 10px;
+  }
+
+  #divider {
+    width: calc(100% - 40px);
+    margin: 10px auto;
+  }
+
+  #artistsPanel {
+    padding: 10px;
+  }
 }
