@@ -72,6 +72,9 @@
   /* Transitions */
   --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
   --transition-fast: 0.2s;
+  --lyric-fade-out-duration: 150ms;
+  --lyric-fade-in-duration: 250ms;
+  --part-reveal-duration: 4000ms;
 
   /* Z-Index */
   --z-bg: 0;

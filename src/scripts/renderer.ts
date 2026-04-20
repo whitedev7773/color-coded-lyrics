@@ -5,6 +5,8 @@ import { CSS_CLASSES, DATA_ATTRIBUTES } from "./constants.ts";
 import { toggleClasses } from "./utils.ts";
 import { updateSpectrumTheme } from "./visualizer.ts";
 import { setArtistImage } from "./app/media.ts";
+import { getAnimationSettings } from "./app/settings.ts";
+import { saveSessionFromState } from "./app/persistence.ts";
 
 function createColorInput(
   artist: Artist,
@@ -154,6 +156,7 @@ export function renderArtistPanels(): void {
     const onColorChange = (color: string) => {
       applyArtistColor(panel, color);
       renderCurrentLyric();
+      saveSessionFromState();
     };
 
     const onImageChange = () => {
@@ -217,6 +220,7 @@ export function renderCurrentLyric(): void {
   }
 
   const lyricPanel = panels.lyrics;
+  const animation = getAnimationSettings();
   lyricPanel.classList.remove("fade-in", "fade-out");
   void lyricPanel.offsetWidth;
   lyricPanel.classList.add("fade-out");
@@ -228,5 +232,5 @@ export function renderCurrentLyric(): void {
     lyricPanel.classList.remove("fade-out");
     void lyricPanel.offsetWidth;
     lyricPanel.classList.add("fade-in");
-  }, 150);
+  }, animation.lyricFadeOutMs);
 }

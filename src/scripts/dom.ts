@@ -37,6 +37,10 @@ export const overlays = {
 
 export const menus = {
   context: getElement<HTMLElement>("contextMenu"),
+  contextSettingsToggle: getElement<HTMLButtonElement>("contextMenuSettingsToggle"),
+  settingsPanel: getElement<HTMLElement>("settingsPanel"),
+  settingsBackdrop: getElement<HTMLElement>("settingsBackdrop"),
+  settingsClose: getElement<HTMLButtonElement>("settingsPanelClose"),
 };
 
 export const sections = {

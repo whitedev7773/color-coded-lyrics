@@ -44,7 +44,7 @@
 }
 
 #partLabel.show {
-  animation: partReveal 4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation: partReveal var(--part-reveal-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 
 #lyricsArea {
@@ -81,11 +81,11 @@
 }
 
 #lyricsArea.fade-out {
-  animation: lyricFadeOut 0.15s ease forwards;
+  animation: lyricFadeOut var(--lyric-fade-out-duration) ease forwards;
 }
 
 #lyricsArea.fade-in {
-  animation: lyricFadeIn 0.25s ease forwards;
+  animation: lyricFadeIn var(--lyric-fade-in-duration) ease forwards;
 }
 
 #lyricJp,

@@ -1,10 +1,7 @@
 import { media, visualizers } from "./dom.ts";
+import { getVisualizerSettings, subscribeToSettings } from "./app/settings.ts";
 
-const BAR_COUNT = 200;
 const MIN_BAR_HEIGHT = 0.04;
-const SPECTRUM_MIN_FREQUENCY_HZ = 20;
-const SPECTRUM_MAX_FREQUENCY_HZ = 20000;
-const SPECTRUM_MAX_HEIGHT_PX = 200;
 const THEME_FADE_DURATION_MS = 300;
 
 type RgbaColor = {
@@ -126,9 +123,10 @@ function getContext(): CanvasRenderingContext2D {
 }
 
 function resizeCanvas(): void {
+  const settings = getVisualizerSettings();
   visualizers.spectrumBar.style.setProperty(
     "--spectrum-max-height",
-    `${SPECTRUM_MAX_HEIGHT_PX}px`,
+    `${settings.maxHeightPx}px`,
   );
 
   const rect = visualizers.spectrumBar.getBoundingClientRect();
@@ -148,12 +146,23 @@ function ensureAudioGraph(): void {
 
   audioContext = new AudioContext();
   analyser = audioContext.createAnalyser();
-  analyser.fftSize = 256;
-  analyser.smoothingTimeConstant = 0.84;
+  applyVisualizerSettings();
   frequencyData = new Uint8Array(new ArrayBuffer(analyser.frequencyBinCount));
   sourceNode = audioContext.createMediaElementSource(media.music);
   sourceNode.connect(analyser);
   analyser.connect(audioContext.destination);
+}
+
+function applyVisualizerSettings(): void {
+  if (!analyser) {
+    return;
+  }
+
+  const settings = getVisualizerSettings();
+  analyser.fftSize = settings.fftSize;
+  analyser.smoothingTimeConstant = settings.smoothing;
+  frequencyData = new Uint8Array(new ArrayBuffer(analyser.frequencyBinCount));
+  resizeCanvas();
 }
 
 function getFrequencyRange(): { start: number; end: number } {
@@ -161,17 +170,18 @@ function getFrequencyRange(): { start: number; end: number } {
     return { start: 0, end: 0 };
   }
 
+  const settings = getVisualizerSettings();
   const nyquist = audioContext.sampleRate / 2;
   const start = Math.max(
     0,
     Math.floor(
-      (SPECTRUM_MIN_FREQUENCY_HZ / nyquist) * analyser.frequencyBinCount,
+      (settings.minFrequencyHz / nyquist) * analyser.frequencyBinCount,
     ),
   );
   const end = Math.min(
     analyser.frequencyBinCount - 1,
     Math.ceil(
-      (SPECTRUM_MAX_FREQUENCY_HZ / nyquist) * analyser.frequencyBinCount,
+      (settings.maxFrequencyHz / nyquist) * analyser.frequencyBinCount,
     ),
   );
 
@@ -207,6 +217,7 @@ function drawSpectrum(timestamp: number): void {
   const ctx = getContext();
   const width = visualizers.spectrumCanvas.width;
   const height = visualizers.spectrumCanvas.height;
+  const settings = getVisualizerSettings();
   const animatedColors = getAnimatedThemeColors(timestamp);
   ctx.clearRect(0, 0, width, height);
 
@@ -220,9 +231,9 @@ function drawSpectrum(timestamp: number): void {
   const elapsed = lastFrameAt === 0 ? 16.67 : timestamp - lastFrameAt;
   lastFrameAt = timestamp;
   const activity = Math.min(1, Math.max(0.35, elapsed / 16.67));
-  const barWidth = width / BAR_COUNT;
+  const barWidth = width / settings.barCount;
   const centerY = height - 8;
-  const maxBarHeight = SPECTRUM_MAX_HEIGHT_PX;
+  const maxBarHeight = settings.maxHeightPx;
   const { start, end } = getFrequencyRange();
   const frequencySpan = Math.max(1, end - start);
   const fill = ctx.createLinearGradient(0, 0, width, 0);
@@ -235,8 +246,9 @@ function drawSpectrum(timestamp: number): void {
     glow.addColorStop(stop, color);
   });
 
-  for (let i = 0; i < BAR_COUNT; i += 1) {
-    const sampleIndex = start + Math.floor((i / BAR_COUNT) * frequencySpan);
+  for (let i = 0; i < settings.barCount; i += 1) {
+    const sampleIndex =
+      start + Math.floor((i / settings.barCount) * frequencySpan);
     const raw = (frequencyData[sampleIndex] ?? 0) / 255;
     const eased = Math.pow(raw, 1.45) * activity;
     const barHeight = MIN_BAR_HEIGHT + eased * maxBarHeight;
@@ -273,6 +285,9 @@ function drawSpectrum(timestamp: number): void {
 export function setupSpectrumVisualizer(): void {
   resizeCanvas();
   window.addEventListener("resize", resizeCanvas);
+  subscribeToSettings(() => {
+    applyVisualizerSettings();
+  });
 
   if (!animationFrameId) {
     animationFrameId = window.requestAnimationFrame(drawSpectrum);
