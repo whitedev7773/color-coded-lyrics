@@ -4,6 +4,34 @@ export interface LyricEntry {
   lines: [string, string, string];
 }
 
+function readQuotedArtistTag(rest: string): { tag: string; length: number } | null {
+  if (!rest.startsWith('#"')) {
+    return null;
+  }
+
+  let tag = "";
+  let index = 2;
+
+  while (index < rest.length) {
+    const char = rest[index];
+    if (char === '"') {
+      return {
+        tag,
+        length: index + 1,
+      };
+    }
+
+    tag += char;
+    index += 1;
+  }
+
+  return null;
+}
+
+function parseArtistNames(tag: string): string[] {
+  return tag.split('+').map((a) => a.trim()).filter(Boolean);
+}
+
 function parseFirstLine(raw: string): { part: string | null; artist: string[] | null; text: string } {
   let rest = raw.trim();
   let part: string | null = null;
@@ -15,15 +43,22 @@ function parseFirstLine(raw: string): { part: string | null; artist: string[] | 
     rest = rest.slice(partMatch[0].length);
   }
 
-  const artistMatch = rest.match(/^#([^\s]*)\s*/);
-  if (artistMatch) {
-    const tag = (artistMatch[1] ?? "").trim();
-    if (tag === '.' || tag === '') {
-      artist = [];
-    } else {
-      artist = tag.split('+').map((a) => a.trim()).filter(Boolean);
+  const quotedArtistTag = readQuotedArtistTag(rest);
+  if (quotedArtistTag) {
+    const tag = quotedArtistTag.tag.trim();
+    artist = tag === "." || tag === "" ? [] : parseArtistNames(tag);
+    rest = rest.slice(quotedArtistTag.length).trimStart();
+  } else {
+    const artistMatch = rest.match(/^#([^\s]*)\s*/);
+    if (artistMatch) {
+      const tag = (artistMatch[1] ?? "").trim();
+      if (tag === '.' || tag === '') {
+        artist = [];
+      } else {
+        artist = parseArtistNames(tag);
+      }
+      rest = rest.slice(artistMatch[0].length);
     }
-    rest = rest.slice(artistMatch[0].length);
   }
 
   return { part, artist, text: rest };

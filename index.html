@@ -18,17 +18,17 @@
     <audio id="musicPlayer" preload="metadata"></audio>
 
     <dialog id="lyricsDialog">
-      <h2>&#44032;&#49324; &#51077;&#47141;</h2>
+      <h2>가사 입력</h2>
       <p class="hint">
-        <code>lyrics.txt</code> &#45236;&#50857;&#51012; &#50668;&#44592;&#50640; &#48537;&#50668;
-        &#45347;&#50612; &#51452;&#49464;&#50836;.<br />
-        &#54805;&#49885;&#51008;
-        <code>[&#54028;&#53944; - 1] #&#50500;&#54000;&#49828;&#53944; &#44032;&#49324; &#54620; &#51460;</code>
-        &#54805;&#53468;&#47484; &#49324;&#50857;&#54616;&#47732; &#46121;&#45768;&#45796;.
+        <code>lyrics.txt</code> 내용을 여기에 붙여 넣어 주세요.<br />
+        형식은
+        <code>[파트 - 1] #"아티스트" 가사 한 줄</code>
+        <code>[파트 - 2] #"A+B" 가사 한 줄</code>
+        형태를 사용하면 됩니다.
       </p>
       <textarea
         id="lyricsTextarea"
-        placeholder="[Verse - 1] #Eve &#52395; &#51460; &#44032;&#49324;&#10;&#47196;&#47560;&#51088; &#44032;&#49324;&#10;&#48264;&#50669; &#44032;&#49324;"
+        placeholder='[Verse - 1] #"Eve" 첫 줄 가사&#10;로마자 가사&#10;번역 가사'
       ></textarea>
       <div class="dialog-actions">
         <button
@@ -36,10 +36,10 @@
           type="button"
           onclick="document.getElementById('lyricsDialog').close()"
         >
-          &#45803;&#44592;
+          닫기
         </button>
         <button class="btn-primary" id="applyLyricsBtn" type="button">
-          &#51201;&#50857;
+          적용
         </button>
       </div>
     </dialog>
@@ -65,22 +65,38 @@
 
     <nav id="contextMenu" class="context-menu" hidden aria-label="Context menu">
       <button type="button" class="context-menu-item" data-action="edit-lyrics">
-        &#44032;&#49324; &#49688;&#51221;
+        가사 수정
       </button>
-      <button type="button" class="context-menu-item" data-action="change-background">
-        &#48176;&#44221; &#48320;&#44221;
+      <button
+        type="button"
+        class="context-menu-item"
+        data-action="change-background"
+      >
+        배경 변경
       </button>
-      <button type="button" class="context-menu-item" data-action="change-music">
-        &#51020;&#50501; &#48320;&#44221;
+      <button
+        type="button"
+        class="context-menu-item"
+        data-action="change-music"
+      >
+        음악 변경
       </button>
-      <button type="button" class="context-menu-item" data-action="toggle-playback">
-        &#51116;&#49373; / &#51068;&#49884;&#51221;&#51648;
+      <button
+        type="button"
+        class="context-menu-item"
+        data-action="toggle-playback"
+      >
+        재생 / 일시정지
       </button>
-      <button type="button" class="context-menu-item" data-action="previous-lyric">
-        &#51060;&#51204; &#44032;&#49324;
+      <button
+        type="button"
+        class="context-menu-item"
+        data-action="previous-lyric"
+      >
+        이전 가사
       </button>
       <button type="button" class="context-menu-item" data-action="next-lyric">
-        &#45796;&#51020; &#44032;&#49324;
+        다음 가사
       </button>
       <button
         type="button"
@@ -90,7 +106,7 @@
         aria-haspopup="dialog"
         aria-controls="settingsPanel"
       >
-        &#49345;&#49464; &#51312;&#51221;
+        상세 조정
       </button>
     </nav>
 
@@ -99,52 +115,66 @@
       id="settingsPanel"
       class="settings-panel"
       hidden
-      aria-label="&#49345;&#49464; &#51312;&#51221; &#54056;&#45328;"
+      aria-label="상세 조정 패널"
     >
       <div class="settings-panel-header">
         <div>
-          <p class="settings-panel-eyebrow">&#49345;&#49464; &#51312;&#51221;</p>
-          <h2 class="settings-panel-title">
-            &#51116;&#49373; &#54868;&#47732; &#49464;&#48512; &#49444;&#51221;
-          </h2>
+          <p class="settings-panel-eyebrow">상세 조정</p>
+          <h2 class="settings-panel-title">재생 화면 세부 설정</h2>
         </div>
         <button
           id="settingsPanelClose"
           type="button"
           class="settings-panel-close"
-          aria-label="&#49345;&#49464; &#51312;&#51221; &#45803;&#44592;"
+          aria-label="상세 조정 닫기"
         >
-          &#45803;&#44592;
+          닫기
         </button>
       </div>
 
       <section class="context-menu-group">
-        <p class="context-menu-group-title">
-          &#49828;&#54169;&#53944;&#47084; &#49444;&#51221;
-        </p>
+        <p class="context-menu-group-title">스펙트럼 설정</p>
         <label class="context-menu-control">
-          <span>&#48148; &#44060;&#49688;</span>
+          <span>바 개수</span>
           <div class="context-menu-field">
-            <input id="barCountInput" type="range" min="24" max="320" step="8" />
+            <input
+              id="barCountInput"
+              type="range"
+              min="24"
+              max="320"
+              step="8"
+            />
             <output id="barCountValue" for="barCountInput"></output>
           </div>
         </label>
         <label class="context-menu-control">
-          <span>&#52572;&#45824; &#45458;&#51060;</span>
+          <span>최대 높이</span>
           <div class="context-menu-field">
-            <input id="barHeightInput" type="range" min="80" max="360" step="10" />
+            <input
+              id="barHeightInput"
+              type="range"
+              min="80"
+              max="360"
+              step="10"
+            />
             <output id="barHeightValue" for="barHeightInput"></output>
           </div>
         </label>
         <label class="context-menu-control">
-          <span>&#49828;&#47924;&#46377;</span>
+          <span>스무딩</span>
           <div class="context-menu-field">
-            <input id="smoothingInput" type="range" min="0.1" max="0.98" step="0.01" />
+            <input
+              id="smoothingInput"
+              type="range"
+              min="0.1"
+              max="0.98"
+              step="0.01"
+            />
             <output id="smoothingValue" for="smoothingInput"></output>
           </div>
         </label>
         <label class="context-menu-control">
-          <span>FFT &#53356;&#44592;</span>
+          <span>FFT 크기</span>
           <div class="context-menu-field">
             <select id="fftSizeInput">
               <option value="32">32</option>
@@ -159,43 +189,71 @@
           </div>
         </label>
         <label class="context-menu-control">
-          <span>&#52572;&#49548; &#51452;&#54028;&#49688;</span>
+          <span>최소 주파수</span>
           <div class="context-menu-field">
-            <input id="minFrequencyInput" type="range" min="20" max="18000" step="20" />
+            <input
+              id="minFrequencyInput"
+              type="range"
+              min="20"
+              max="18000"
+              step="20"
+            />
             <output id="minFrequencyValue" for="minFrequencyInput"></output>
           </div>
         </label>
         <label class="context-menu-control">
-          <span>&#52572;&#45824; &#51452;&#54028;&#49688;</span>
+          <span>최대 주파수</span>
           <div class="context-menu-field">
-            <input id="maxFrequencyInput" type="range" min="100" max="20000" step="50" />
+            <input
+              id="maxFrequencyInput"
+              type="range"
+              min="100"
+              max="20000"
+              step="50"
+            />
             <output id="maxFrequencyValue" for="maxFrequencyInput"></output>
           </div>
         </label>
       </section>
 
       <section class="context-menu-group">
-        <p class="context-menu-group-title">
-          &#50528;&#45768;&#47700;&#51060;&#49496; &#49884;&#44036;
-        </p>
+        <p class="context-menu-group-title">애니메이션 시간</p>
         <label class="context-menu-control">
-          <span>&#44032;&#49324; &#49324;&#46972;&#51656;</span>
+          <span>가사 사라짐</span>
           <div class="context-menu-field">
-            <input id="lyricFadeOutInput" type="range" min="50" max="1000" step="10" />
+            <input
+              id="lyricFadeOutInput"
+              type="range"
+              min="50"
+              max="1000"
+              step="10"
+            />
             <output id="lyricFadeOutValue" for="lyricFadeOutInput"></output>
           </div>
         </label>
         <label class="context-menu-control">
-          <span>&#44032;&#49324; &#46321;&#51109;</span>
+          <span>가사 등장</span>
           <div class="context-menu-field">
-            <input id="lyricFadeInInput" type="range" min="50" max="1200" step="10" />
+            <input
+              id="lyricFadeInInput"
+              type="range"
+              min="50"
+              max="1200"
+              step="10"
+            />
             <output id="lyricFadeInValue" for="lyricFadeInInput"></output>
           </div>
         </label>
         <label class="context-menu-control">
-          <span>&#54028;&#53944; &#54364;&#49884; &#49884;&#44036;</span>
+          <span>파트 표시 시간</span>
           <div class="context-menu-field">
-            <input id="partRevealInput" type="range" min="800" max="8000" step="100" />
+            <input
+              id="partRevealInput"
+              type="range"
+              min="800"
+              max="8000"
+              step="100"
+            />
             <output id="partRevealValue" for="partRevealInput"></output>
           </div>
         </label>
@@ -206,7 +264,7 @@
         class="context-menu-item context-menu-item-reset"
         data-action="reset-settings"
       >
-        &#49444;&#51221; &#52488;&#44592;&#54868;
+        설정 초기화
       </button>
     </aside>
   </body>
